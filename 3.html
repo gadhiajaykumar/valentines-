@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ultimate Valentine 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Parisienne&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+height:100vh;
+font-family:Poppins;
+background:linear-gradient(135deg,#2e001f,#680026);
+overflow:hidden;
+color:white;
+}
+
+/* PAGE SYSTEM */
+.page{
+display:none;
+width:100%;
+height:100%;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+position:absolute;
+top:0;
+left:0;
+}
+.active{display:flex;}
+
+/* LOGIN */
+.login-box{
+background:rgba(255,255,255,0.1);
+padding:40px;
+border-radius:20px;
+backdrop-filter:blur(15px);
+}
+
+input{
+width:100%;
+padding:12px;
+margin:8px 0;
+border-radius:12px;
+border:none;
+}
+
+button{
+padding:14px 30px;
+border:none;
+border-radius:30px;
+background:linear-gradient(45deg,#ff2e74,#ff6fa5);
+color:white;
+cursor:pointer;
+margin:10px;
+font-size:16px;
+}
+
+/* HEART FLOAT */
+.heart{
+position:absolute;
+bottom:-50px;
+font-size:24px;
+animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:1;}
+100%{transform:translateY(-110vh);opacity:0;}
+}
+
+/* PARTICLES */
+#particles{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+z-index:-1;
+}
+.particle{
+position:absolute;
+border-radius:50%;
+background:rgba(255,255,255,0.4);
+animation:float 12s infinite linear;
+}
+@keyframes float{
+0%{transform:translateY(100vh);opacity:0;}
+50%{opacity:1;}
+100%{transform:translateY(-10vh);opacity:0;}
+}
+
+/* GALLERY */
+.gallery{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-top:20px;
+}
+.gallery img{
+width:140px;
+height:140px;
+object-fit:cover;
+border-radius:12px;
+}
+
+/* LETTER */
+.letter{
+background:white;
+color:black;
+padding:20px;
+border-radius:12px;
+font-family:Dancing Script;
+font-size:22px;
+max-width:500px;
+}
+
+.cursor::after{
+content:"|";
+animation:blink 1s infinite;
+}
+@keyframes blink{
+50%{opacity:0;}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="particles"></div>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="page active">
+<div class="login-box">
+<h1 style="font-family:Dancing Script;">Welcome 💖</h1>
+<input placeholder="Login ID">
+<input placeholder="Password" type="password">
+<button onclick="goQuestion()">Login 💌</button>
+</div>
+</div>
+
+<!-- QUESTION PAGE -->
+<div id="questionPage" class="page">
+<h1 style="font-family:Dancing Script;font-size:60px;">Will You Be My Valentine? 💖</h1>
+<button onclick="goJourney()">Yes 💕</button>
+<button id="noBtn">No 😢</button>
+</div>
+
+<!-- JOURNEY INTRO -->
+<div id="journeyPage" class="page">
+<h1 style="font-family:Parisienne;font-size:60px;">Hey Beautiful ✨</h1>
+<p>I have something special for you</p>
+<button onclick="goGallery()">Start Journey ❤️</button>
+</div>
+
+<!-- MEMORY GALLERY -->
+<div id="galleryPage" class="page">
+<h1>Our Memories 📸</h1>
+
+<div class="gallery">
+<img src="IMG_9995.jpg">
+<img src="IMG_9997.jpg">
+<img src="IMG_20220307_134204_245.jpg">
+<img src="IMG_9998.jpg">
+</div>
+
+<button onclick="goLetter()">Next 💌</button>
+</div>
+
+<!-- LOVE LETTER -->
+<div id="letterPage" class="page">
+<h1>For You 💖</h1>
+<div class="letter">
+<span id="typeText"></span><span class="cursor"></span>
+</div>
+<button onclick="goProposal()">Last Question 💍</button>
+</div>
+
+<!-- FINAL PROPOSAL -->
+<div id="proposalPage" class="page">
+<h1 style="font-family:Dancing Script;font-size:60px;">Will You Marry Me? 💍</h1>
+<button onclick="goFinal()">YES 😍</button>
+<button id="noBtn2">No 😢</button>
+</div>
+
+<!-- FINAL CELEBRATION -->
+<div id="finalPage" class="page">
+<h1 style="font-family:Parisienne;font-size:70px;">Forever With You ❤️</h1>
+
+<img src="https://media.giphy.com/media/26BRv0ThflsHCqDrG/giphy.gif" width="300">
+
+<h2>Happy Valentine's Day 💞</h2>
+</div>
+
+<!-- MUSIC -->
+<audio id="music" loop>
+<source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3">
+</audio>
+
+<script>
+
+/* PARTICLES */
+for(let i=0;i<25;i++){
+let p=document.createElement("div");
+p.className="particle";
+p.style.left=Math.random()*100+"vw";
+p.style.width=p.style.height=(Math.random()*8+4)+"px";
+p.style.animationDuration=(Math.random()*10+10)+"s";
+particles.appendChild(p);
+}
+
+/* PAGE NAV */
+function show(id){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+
+function goQuestion(){show("questionPage"); startHearts();}
+function goJourney(){show("journeyPage"); music.play();}
+function goGallery(){show("galleryPage");}
+function goLetter(){show("letterPage"); startTyping();}
+function goProposal(){show("proposalPage");}
+function goFinal(){show("finalPage"); confetti();}
+
+/* HEARTS */
+function startHearts(){
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💖";
+h.style.left=Math.random()*100+"vw";
+h.style.animationDuration=(3+Math.random()*4)+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},500);
+}
+
+/* TYPEWRITER */
+const text="From the day I met you, my life became beautiful. I want to spend forever with you ❤️";
+let i=0;
+function startTyping(){
+i=0;
+type();
+}
+function type(){
+if(i<text.length){
+typeText.innerHTML+=text[i];
+i++;
+setTimeout(type,40);
+}
+}
+
+/* NO BUTTON RUN */
+noBtn.onmouseover=noBtn.onclick=()=>move(noBtn);
+noBtn2.onmouseover=noBtn2.onclick=()=>move(noBtn2);
+function move(btn){
+btn.style.position="absolute";
+btn.style.left=Math.random()*80+"%";
+btn.style.top=Math.random()*80+"%";
+}
+
+/* CONFETTI */
+function confetti(){
+for(let i=0;i<120;i++){
+let c=document.createElement("div");
+c.style.position="fixed";
+c.style.width="8px";
+c.style.height="8px";
+c.style.background=`hsl(${Math.random()*360},100%,50%)`;
+c.style.left=Math.random()*100+"vw";
+c.style.top="-10px";
+document.body.appendChild(c);
+c.animate([
+{transform:"translateY(0)",opacity:1},
+{transform:"translateY(100vh)",opacity:0}
+],{duration:Math.random()*3000+2000});
+}
+}
+
+</script>
+
+</body>
+</html>
